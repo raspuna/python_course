@@ -20,8 +20,8 @@ class User:
     
     def transfer_money(self, user, amount):
         print(f"{self.username} transfer {amount} to {user.username}")
-        self.balance -= amount
-        user.balance += amount
+        self.make_withdrawl(amount)
+        user.make_deposit(amount)
 
 claire = User("Claire", 500)
 josephine = User("Josephine", 30)
@@ -31,7 +31,6 @@ claire.make_deposit(25)
 claire.make_deposit(17.25)
 claire.make_deposit(21.29)
 claire.make_withdrawl(47)
-print(500+25+17.25+21.29-47)
 claire.display_user_balance()
 
 josephine.make_deposit(48)
