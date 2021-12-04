@@ -1,6 +1,4 @@
 class BankAccount:
-    int_rate = 0.0
-    balance = 0
     all_accounts = []
 
     def __init__(self, int_rate = 0.0, balance = 0):
@@ -35,28 +33,56 @@ class BankAccount:
 
 
 class User:
-    username = "Doe"
-    account = None
 
-    def __init__(self, name, amount = 0):
+    def __init__(self, name, amount = 0, account_name = "checking"):
         self.username = name
-        self.account = BankAccount(0.0, amount)
+        self.accounts = {}
+        self.accounts[account_name] = BankAccount(0.0, amount)
+    
+    def open_account(self, amount, int_rate, account_name):
+        if account_name in self.accounts:
+            print(account_name, "already exist")
+        else:
+            self.accounts[account_name] = BankAccount(int_rate, amount)
+    
+    def close_account(self, account_name):
+        if account_name not in self.accounts:
+            print(account_name, "is not valid")
+        elif account_name == "checking":
+            print("checking is not supposed to be closed")
+        else:
+            del self.accounts[account_name]
 
-    def make_deposit(self, amount):
-        self.account.deposit(amount)
+    def make_deposit(self, amount, account_name = "checking"):
+        # print(self.username, "make deposit before:")
+        # self.display_user_balance()
+        self.accounts[account_name].deposit(amount)
+        # print(self.username, "make deposit after")
+        # self.display_user_balance()
         return self
 
-    def make_withdrawl(self, amount):
-        self.account.withdraw(amount)
+    def make_withdrawl(self, amount, account_name="checking"):
+        # print(self.username, "make withdraw before:")
+        # self.display_user_balance()
+        self.accounts[account_name].withdraw(amount)
+        # print(self.username, "make withdraw after:")
+        # self.display_user_balance()
+        return self
+    
+    def yield_interest(self):
+        for account in self.accounts:
+            self.accounts[account].yield_interest()
         return self
 
     def display_user_balance(self):
-        self.account.display_account_info()
+        for account in self.accounts:
+            print(account+":")
+            self.accounts[account].display_account_info()
     
-    def transfer_money(self, user, amount):
+    def transfer_money(self, user, amount, from_account_name="checking", to_account_name="checking"):
         print(f"{self.username} transfer {amount} to {user.username}")
-        self.make_withdrawl(amount)
-        user.make_deposit(amount)
+        self.make_withdrawl(amount, from_account_name)
+        user.make_deposit(amount, to_account_name)
 
 claire = User("Claire", 500)
 josephine = User("Josephine", 30)
@@ -84,3 +110,22 @@ claire.transfer_money(anaya, 300)
 claire.display_user_balance()
 anaya.display_user_balance()
 
+claire.open_account(300, 0.05, "savings")
+#print("114 line")
+claire.display_user_balance()
+claire.make_deposit(3500, "savings")
+#print("117")
+claire.display_user_balance()
+#print("119 yeild")
+claire.yield_interest()
+#print("212 after yeild")
+claire.display_user_balance()
+claire.yield_interest()
+claire.display_user_balance()
+claire.transfer_money(claire, 4189.5, "savings", "checking")
+claire.display_user_balance()
+claire.close_account("savings")
+claire.display_user_balance()
+claire.close_account("checking")
+claire.close_account("checking2")
+claire.display_user_balance()
