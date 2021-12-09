@@ -84,10 +84,10 @@ if __name__ == "__main__":
     npc_list.append(AI("Kristoff", CardFirstTactic()))
 
     random.shuffle(npc_list)
+    players.add(player)
     players.add(npc_list[0])
     players.add(npc_list[1])
     players.add(npc_list[2])
-    players.add(player)
 
     print(f"Welcome, {user_name}!")
 
@@ -146,10 +146,10 @@ if __name__ == "__main__":
                     i2 = input("You said Uno! which card put donw?")
                     print(player.show_hands(top_card))
                     if i2 == '1':
-                        player.put(0)
+                        play_card(player, player.down_card(0))
                         Uno = False
                     elif i2 == '2':
-                        player.put(1)
+                        play_card(player, player.down_card(1))
                         Uno = False
                     else:
                         print("you only have 2 cards!")
@@ -184,9 +184,7 @@ if __name__ == "__main__":
         if do_AI(players):
             break
         
-    # AI 를 다변화
-    # 덱도 더미도 없을때? 
-    # 특수카드?
+    # 특수카드? - wild , reverse, add 2, skip
 
     Game = False
 
