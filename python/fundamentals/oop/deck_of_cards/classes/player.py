@@ -27,19 +27,23 @@ class Player:
             return False
 
 
-    def show_hands(self):
+    def show_hands(self, top_card = None):
         if self.is_ai:
             self.show_hands_secret()
             return
-        cards = []
+        cards = [self.name+"> "]
+
         for idx, card in enumerate(self.hands):
-            cards.append(f"[({idx+1}) {card.show()}]")
+            if card.is_playable(top_card):
+                cards.append(f"[({str(idx+1).rjust(2)}) {card.show()}]")
+            else:
+                cards.append(f"[(  ) {card.show()}]")
         
-        string = ' '.join(cards) 
+        string = '\n'.join(cards) 
         print(string)
 
     def show_hands_secret(self):
-        h = self.name + ">"
+        h = self.name + "> "
         for i in range(len(self.hands)):
             h += "[ ]"
         print(h)
