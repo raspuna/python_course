@@ -1,5 +1,5 @@
 from classes.deck import Deck
-from classes.player import Player
+from classes.player import Player, AI
 import random
 import re
 
@@ -34,33 +34,29 @@ def replace():
     return deck.get()
 
 
+def play_card(player, card):
+    global dummy, top_card
+    top_card = card
+    dummy.add(card)
+    player.uno()
+    return player.win()
+
 def do_AI(npc):
     global top_card
     global deck, dummy
 
+    # search suit first
     for idx, card in enumerate(npc.hands):
-        if card.suit == top_card.suit:
-            the_card = npc.down_card(idx+1)
-            dummy.add(the_card)
-            top_card = the_card
-            npc.uno()
-            return npc.win()
+        if card.is_same_suit(top_card):
+            return play_card(npc, npc.down_card(idx+1))
     
     for idx, card in enumerate(npc.hands):
-        if card.string_val == top_card.string_val:
-            the_card = npc.down_card(idx+1)
-            dummy.add(the_card)
-            top_card = the_card
+        if card.is_same_number(top_card):
+            return play_card(npc, npc.down_card(idx+1))
 
-            npc.uno()
-            return npc.win()
-    
     npc.add_hand(draw())
     print(f"{npc.name} draws.")
     return False
-
-    
-
 
 
 
@@ -80,9 +76,9 @@ if __name__ == "__main__":
 
     user_name = str(input("Please let us know your name:   "))
     player = Player(user_name)
-    npc1 = Player("Anna", is_ai = True)
-    npc2 = Player("Elsa", is_ai = True)
-    npc3 = Player("Sven", is_ai = True) 
+    npc1 = AI("Anna", 0)
+    npc2 = AI("Elsa", 1)
+    npc3 = AI("Sven", 2) 
 
     player_list =[]
     player_list.append(player)
@@ -131,10 +127,9 @@ if __name__ == "__main__":
                 print(f"You couldn't put down : [({i}) {peek_card.show()}]")
                 continue
 
-            top_card = player.down_card(int(i))
-            dummy.add(top_card)
-            if player.win():
-                Game = False
+            is_win = play_card(player, player.down_card(int(i)))
+            if is_win:
+                break
 
         # instruction
         else:

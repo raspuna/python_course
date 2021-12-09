@@ -28,11 +28,7 @@ class Player:
 
 
     def show_hands(self, top_card = None):
-        if self.is_ai:
-            self.show_hands_secret()
-            return
         cards = [self.name+"> "]
-
         for idx, card in enumerate(self.hands):
             if card.is_playable(top_card):
                 cards.append(f"[({str(idx+1).rjust(2)}) {card.show()}]")
@@ -42,8 +38,16 @@ class Player:
         string = '\n'.join(cards) 
         print(string)
 
-    def show_hands_secret(self):
+        
+class AI(Player):
+    def __init__(self, name, tactic):
+        super().__init__(name, True)
+        self.tactic = tactic
+
+    def show_hands(self):
         h = self.name + "> "
         for i in range(len(self.hands)):
             h += "[ ]"
         print(h)
+
+
