@@ -9,7 +9,8 @@ deck = None
 
 def show_hands(player_list):
     for p in player_list:
-        p.show_hands()
+        if p.is_ai:
+            p.show_hands()
 
 def initialize_game(player_list):
     global deck 
@@ -95,7 +96,7 @@ if __name__ == "__main__":
 
     initialize_game(player_list)
     print_option()
-    p = re.compile("^[udqnost1-9]{1}$")
+    p = re.compile("(^[udqnost]$)|(^[0-9]+$)")
     # for debugging
     show_hands(player_list)
 
@@ -110,67 +111,76 @@ if __name__ == "__main__":
         player.show_hands()
 
         i = input("What will you do next?")
-        if not p.match(i):
-            print("wrong option")
+        matched = p.match(i)
+        if not matched:
+            print("Wrong option: ", i)
+            print("Show option -> h")
             continue
-
-        if i == 'h':
-            print_option()
-            continue
-        elif i == 'u':
-            if len(player.hands) != 2:
-                print("You can't say Uno now. Only you can say uno when you have 2 cards.")
-                continue
-            Uno = True
-            while Uno:
-                i2 = input("You said Uno! which card put donw?")
-                print(player.show_hands())
-                if i2 == '1':
-                    player.put(0)
-                    Uno = False
-                elif i2 == '2':
-                    player.put(1)
-                    Uno = False
-                else:
-                    print("you only have 2 cards!")
-        elif i == 't':
-            print(top_card.show())
-            continue
-        elif i == 's':
-            player.show_hands()
-            print(f"now top card is : {top_card.show()}")
-            print("")
-            continue
-        elif i == 'q':
-            print ("quit the game.")
-            Game = False 
-            continue
-        elif i == 'n':
-            i3 = input("you chose new game. do you want to quit this game?[y/n]")
-            if i3 == 'y':
-                print("quit the game.")
-                Game = False
-                continue
-            else:
-                print("keep going")
-                continue
-        elif i == 'd':
-            player.add_hand(draw())
-        else:
-            if int(i) > len(player.hands):
-                print("You don't have the card :", i)
+        
+        # numbers
+        if matched.group(2):
+            if int(i) > len(player.hands) or int(i) == 0:
+                print(f"You don't have the card :[({i}) ... ]")
                 continue
 
             # check validity of user input
             peek_card = player.hands[int(i)-1]
-            if peek_card.string_val != top_card.string_val and peek_card.suit != top_card.suit:
-                print("You couldn't put down : ", peek_card.show())
+            if not peek_card.is_same_suit(top_card) and not peek_card.is_same_number(top_card):
+                print(f"You couldn't put down : [({i}) {peek_card.show()}]")
                 continue
+
             top_card = player.down_card(int(i))
             dummy.add(top_card)
             if player.win():
                 Game = False
 
+        # instruction
+        else:
+            if i == 'h':
+                print_option()
+                continue
+            elif i == 'u':
+                if len(player.hands) != 2:
+                    print("You can't say Uno now. Only you can say uno when you have 2 cards.")
+                    continue
+                Uno = True
+                while Uno:
+                    i2 = input("You said Uno! which card put donw?")
+                    print(player.show_hands())
+                    if i2 == '1':
+                        player.put(0)
+                        Uno = False
+                    elif i2 == '2':
+                        player.put(1)
+                        Uno = False
+                    else:
+                        print("you only have 2 cards!")
+            elif i == 't':
+                print(top_card.show())
+                continue
+            elif i == 's':
+                player.show_hands()
+                print(f"now top card is : {top_card.show()}")
+                print("")
+                continue
+            elif i == 'q':
+                print ("quit the game.")
+                Game = False 
+                continue
+            elif i == 'n':
+                i3 = input("you chose new game. do you want to quit this game?[y/n]")
+                if i3 == 'y':
+                    print("quit the game.")
+                    Game = False
+                    continue
+                else:
+                    print("keep going")
+                    continue
+            elif i == 'd':
+                player.add_hand(draw())
+            else:
+                print("Uh-oh")
+                continue
 
         #AI's turn
         if do_AI(npc1) or do_AI(npc2) or do_AI(npc3):
@@ -180,7 +190,6 @@ if __name__ == "__main__":
 
     # AI 를 다변화
     # 낼 수 있는 것만 표시해줘
-    # 정규식 고쳐야됨.
     # 드로우를 많이 했을때 ? 덱도 더미도 없을때 => 더 많은 핸드카드를 낼 수 있게 바꿀것
 
 
