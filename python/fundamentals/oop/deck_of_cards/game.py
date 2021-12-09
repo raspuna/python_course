@@ -1,7 +1,7 @@
+from random import shuffle
 from classes.deck import Deck
-from classes.player import Player, AI
-import random
-import re
+from classes.player import *
+import re, random
 
 top_card = None
 dummy = None
@@ -35,14 +35,22 @@ def play_card(player, card):
     player.uno()
     return player.win()
 
-def do_AI(npc):
+def do_AI(players):
+    one = players.next()
+    while one.is_ai:
+        if play(one):
+            return True
+        else:
+            one = players.next()
+
+def play(npc):
+
     global top_card
     global deck, dummy
 
-
     card = npc.choose_card(top_card)
     if card:
-        return play_card(player, card)
+        return play_card(npc, card)
 
     npc.add_hand(draw())
     print(f"{npc.name} draws.")
@@ -64,19 +72,29 @@ def print_option():
 
 if __name__ == "__main__":
 
-    user_name = str(input("Please let us know your name:   "))
+    user_name = str(input("Please let us know your name: "))
+    players = Players()
     player = Player(user_name)
-    npc1 = AI("Anna", 0)
-    npc2 = AI("Elsa", 1)
-    npc3 = AI("Sven", 2) 
+    npc_list =[]
+    npc_list.append(AI("Anna", SuitFirstTactic()))
+    npc_list.append(AI("Elsa", NumberFirstTactic()))
+    npc_list.append(AI("Sven", CardFirstTactic()))
+    npc_list.append(AI("Olaf", SuitFirstTactic()))
+    npc_list.append(AI("Bruni", NumberFirstTactic()))
+    npc_list.append(AI("Kristoff", CardFirstTactic()))
+
+    random.shuffle(npc_list)
+    players.add(npc_list[0])
+    players.add(npc_list[1])
+    players.add(npc_list[2])
+    players.add(player)
 
     print(f"Welcome, {user_name}!")
 
-    initialize_game(Player.players())
+    initialize_game(players.get())
     print_option()
     p = re.compile("(^[udqnsht]$)|(^[0-9]+$)")
     # for debugging
-    Player.show_all()
 
     top_card = deck.get()
     dummy = Deck(is_empty = True)
@@ -85,12 +103,13 @@ if __name__ == "__main__":
     Game = True
     while Game:
 
-        player.show_hands(top_card)
+        players.show_all(top_card)
+        #player.show_hands(top_card)
         print("")
         print("top >>", top_card.show())
         print("")
         
-        i = input("What will you do next?")
+        i = input("What will you do next? ")
         matched = p.match(i)
         if not matched:
             print("Wrong option: ", i)
@@ -162,11 +181,9 @@ if __name__ == "__main__":
                 continue
 
         #AI's turn
-        if do_AI(npc1) or do_AI(npc2) or do_AI(npc3):
-            Game = False
+        if do_AI(players):
+            break
         
-        Player.show_all()
-
     # AI 를 다변화
     # 덱도 더미도 없을때? 
     # 특수카드?

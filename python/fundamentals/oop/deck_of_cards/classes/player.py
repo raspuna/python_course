@@ -1,29 +1,38 @@
+class Players:
+    def __init__(self):
+        self.player_list = []
+        self.direction =1
+        self.current_idx = 0
+
+    def add(self, player):
+        print(f"{player.name} joins the game.")
+        self.player_list.append(player)
+    
+    def get(self):
+        return self.player_list
+    
+    def show_all(self, top_card):
+        for p in self.player_list:
+            p.show_hands(top_card)
+
+    def next(self):
+        idx = self.current_idx + self.direction
+        size = len(self.player_list)
+        if idx < 0 or idx >= size:
+            idx %= size
+        self.current_idx = idx
+        return self.current()
+
+    def current(self):
+        return self.player_list[self.current_idx]
+        
+
 
 class Player:
-    player_list = []
-    direction = 1
-    current_idx = 0
-
     def __init__(self, name, is_ai = False):
         self.name = name
         self.hands = []
         self.is_ai = is_ai
-        Player.player_list.append(self)
-
-    @classmethod
-    def next_player(cls):
-        current_idx = current_idx + direction
-
-        
-    @classmethod
-    def players(cls):
-        return cls.player_list
-    
-    @classmethod
-    def show_all(cls):
-        for p in cls.player_list:
-            if p.is_ai:
-                p.show_hands()
 
     def add_hand(self, card):
         card.show()
@@ -63,33 +72,48 @@ class AI(Player):
         super().__init__(name, True)
         self.tactic = tactic
 
-    def show_hands(self):
+    def show_hands(self, top_card):
         h = self.name + "> "
         for i in range(len(self.hands)):
             h += "[ ]"
         print(h)
     
     def choose_card(self, top_card):
-        if self.tactic == 0:
-            for idx, card in enumerate(self.hands):
-                if card.is_same_suit(top_card):
-                    return self.down_card(idx)
-            for idx, card in enumerate(self.hands):
-                if card.is_same_number(top_card):
-                    return self.down_card(idx)
-        elif self.tactic == 1:
-            for idx, card in enumerate(self.hands):
-                if card.is_same_number(top_card):
-                    return self.down_card(idx)
-            for idx, card in enumerate(self.hands):
-                if card.is_same_suit(top_card):
-                    return self.down_card(idx)
-        elif self.tactic == 2:
-            for idx, card in enumerate(self.hands):
-                if card.is_same_number(top_card):
-                    return self.down_card(idx)
-                if card.is_same_suit(top_card):
-                    return self.down_card(idx)
+        idx = self.tactic.choose(top_card, self.hands)
+        if idx != None:
+            return self.down_card(idx)
+        else :
+            return None
+
+class Tactic:
+    def choose(self):
+        pass
+
+class SuitFirstTactic(Tactic):
+    def choose(self, top_card, hands):
+        for idx, card in enumerate(hands):
+            if card.is_same_suit(top_card):
+                return idx
+        for idx, card in enumerate(hands):
+            if card.is_same_number(top_card):
+                return idx
         return None
 
+class NumberFirstTactic(Tactic):
+    def choose(self, top_card, hands):
+        for idx, card in enumerate(hands):
+            if card.is_same_number(top_card):
+                return idx
+        for idx, card in enumerate(hands):
+            if card.is_same_suit(top_card):
+                return idx
+        return None
 
+class CardFirstTactic(Tactic):
+    def choose(self, top_card, hands):
+        for idx, card in enumerate(hands):
+            if card.is_same_number(top_card):
+                return idx
+            if card.is_same_suit(top_card):
+                return idx
+        return None
