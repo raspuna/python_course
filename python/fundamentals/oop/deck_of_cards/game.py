@@ -96,7 +96,7 @@ if __name__ == "__main__":
 
     initialize_game(player_list)
     print_option()
-    p = re.compile("(^[udqnost]$)|(^[0-9]+$)")
+    p = re.compile("(^[udqnsht]$)|(^[0-9]+$)")
     # for debugging
     show_hands(player_list)
 
@@ -107,9 +107,11 @@ if __name__ == "__main__":
     Game = True
     while Game:
 
+        player.show_hands(top_card)
+        print("")
         print("top >>", top_card.show())
-        player.show_hands()
-
+        print("")
+        
         i = input("What will you do next?")
         matched = p.match(i)
         if not matched:
@@ -146,7 +148,7 @@ if __name__ == "__main__":
                 Uno = True
                 while Uno:
                     i2 = input("You said Uno! which card put donw?")
-                    print(player.show_hands())
+                    print(player.show_hands(top_card))
                     if i2 == '1':
                         player.put(0)
                         Uno = False
@@ -159,7 +161,7 @@ if __name__ == "__main__":
                 print(top_card.show())
                 continue
             elif i == 's':
-                player.show_hands()
+                player.show_hands(top_card)
                 print(f"now top card is : {top_card.show()}")
                 print("")
                 continue
@@ -189,10 +191,8 @@ if __name__ == "__main__":
         show_hands(player_list)
 
     # AI 를 다변화
-    # 낼 수 있는 것만 표시해줘
-    # 드로우를 많이 했을때 ? 덱도 더미도 없을때 => 더 많은 핸드카드를 낼 수 있게 바꿀것
-
-
+    # 덱도 더미도 없을때? 
+    # 특수카드?
 
     Game = False
 
