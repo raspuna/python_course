@@ -11,3 +11,12 @@ class Card:
     
     def show(self):
         return f"{self.string_val} of {self.suit}"
+    
+    def is_same_suit(self, card):
+        return self.suit == card.suit
+    
+    def is_same_number(self, card):
+        return self.string_val == card.string_val
+    
+    def is_playable(self, card):
+        return self.is_same_suit(card) or self.is_same_number(card)
