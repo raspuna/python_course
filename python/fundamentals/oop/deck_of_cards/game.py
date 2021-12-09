@@ -18,18 +18,6 @@ def initialize_game(player_list):
         for p in player_list:
             card = deck.cards.pop()
             p.add_hand(card)
-
-def uno(player):
-    if len(player.hands) == 1:
-        print(f"{player.name} says \"Uno!!!\"")
-
-def win(player):
-    if len(player.hands) == 0:
-        print(f"{player.name} wins the game ")
-        return True
-    else :
-        return False
-
 def draw():
     global deck
     card = deck.get()
@@ -54,8 +42,8 @@ def do_AI(npc):
             the_card = npc.down_card(idx+1)
             dummy.add(the_card)
             top_card = the_card
-            uno(npc)
-            return win(npc)
+            npc.uno()
+            return npc.win()
     
     for idx, card in enumerate(npc.hands):
         if card.string_val == top_card.string_val:
@@ -63,8 +51,8 @@ def do_AI(npc):
             dummy.add(the_card)
             top_card = the_card
 
-            uno(npc)
-            return win(npc)
+            npc.uno()
+            return npc.win()
     
     npc.add_hand(draw())
     print(f"{npc.name} draws.")
@@ -106,6 +94,7 @@ if __name__ == "__main__":
 
 
     initialize_game(player_list)
+    print_option()
     p = re.compile("^[udqnost1-9]{1}$")
     # for debugging
     show_hands(player_list)
@@ -179,7 +168,7 @@ if __name__ == "__main__":
                 continue
             top_card = player.down_card(int(i))
             dummy.add(top_card)
-            if win(player):
+            if player.win():
                 Game = False
 
 
@@ -188,6 +177,12 @@ if __name__ == "__main__":
             Game = False
         
         show_hands(player_list)
+
+    # AI 를 다변화
+    # 낼 수 있는 것만 표시해줘
+    # 정규식 고쳐야됨.
+    # 드로우를 많이 했을때 ? 덱도 더미도 없을때 => 더 많은 핸드카드를 낼 수 있게 바꿀것
+
 
 
     Game = False

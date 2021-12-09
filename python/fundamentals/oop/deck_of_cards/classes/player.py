@@ -15,6 +15,18 @@ class Player:
         print(f"{self.name} put down [ {card.show()} ]")
         return card 
 
+    def uno(self):
+        if len(self.hands) == 1:
+            print(f"{self.name} says \"Uno!!!\"")
+
+    def win(self):
+        if len(self.hands) == 0:
+            print(f"{self.name} wins the game!!!!")
+            return True
+        else :
+            return False
+
+
     def show_hands(self):
         if self.is_ai:
             self.show_hands_secret()
