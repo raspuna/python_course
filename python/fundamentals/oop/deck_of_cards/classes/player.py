@@ -1,9 +1,23 @@
 
 class Player:
+    player_list = []
+    direction = 1
+
     def __init__(self, name, is_ai = False):
         self.name = name
         self.hands = []
         self.is_ai = is_ai
+        Player.player_list.append(self)
+
+    @classmethod
+    def players(cls):
+        return cls.player_list
+    
+    @classmethod
+    def show_all(cls):
+        for p in cls.player_list:
+            if p.is_ai:
+                p.show_hands()
 
     def add_hand(self, card):
         card.show()

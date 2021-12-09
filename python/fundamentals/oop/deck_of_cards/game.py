@@ -7,11 +7,6 @@ top_card = None
 dummy = None
 deck = None
 
-def show_hands(player_list):
-    for p in player_list:
-        if p.is_ai:
-            p.show_hands()
-
 def initialize_game(player_list):
     global deck 
     deck = Deck()
@@ -19,6 +14,7 @@ def initialize_game(player_list):
         for p in player_list:
             card = deck.cards.pop()
             p.add_hand(card)
+
 def draw():
     global deck
     card = deck.get()
@@ -28,11 +24,9 @@ def draw():
 
 def replace():
     global deck, dummy
-
     print("The deck is empty! Reshuffle dummy")
     deck = dummy.shuffle()
     return deck.get()
-
 
 def play_card(player, card):
     global dummy, top_card
@@ -80,21 +74,13 @@ if __name__ == "__main__":
     npc2 = AI("Elsa", 1)
     npc3 = AI("Sven", 2) 
 
-    player_list =[]
-    player_list.append(player)
-    player_list.append(npc1)
-    player_list.append(npc2)
-    player_list.append(npc3)
+    print(f"Welcome, {user_name}!")
 
-
-    print("Welcome", user_name)
-
-
-    initialize_game(player_list)
+    initialize_game(Player.players())
     print_option()
     p = re.compile("(^[udqnsht]$)|(^[0-9]+$)")
     # for debugging
-    show_hands(player_list)
+    Player.show_all()
 
     top_card = deck.get()
     dummy = Deck(is_empty = True)
@@ -183,7 +169,7 @@ if __name__ == "__main__":
         if do_AI(npc1) or do_AI(npc2) or do_AI(npc3):
             Game = False
         
-        show_hands(player_list)
+        Player.show_all()
 
     # AI 를 다변화
     # 덱도 더미도 없을때? 
