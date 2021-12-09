@@ -39,14 +39,10 @@ def do_AI(npc):
     global top_card
     global deck, dummy
 
-    # search suit first
-    for idx, card in enumerate(npc.hands):
-        if card.is_same_suit(top_card):
-            return play_card(npc, npc.down_card(idx+1))
-    
-    for idx, card in enumerate(npc.hands):
-        if card.is_same_number(top_card):
-            return play_card(npc, npc.down_card(idx+1))
+
+    card = npc.choose_card(top_card)
+    if card:
+        return play_card(player, card)
 
     npc.add_hand(draw())
     print(f"{npc.name} draws.")
@@ -113,7 +109,7 @@ if __name__ == "__main__":
                 print(f"You couldn't put down : [({i}) {peek_card.show()}]")
                 continue
 
-            is_win = play_card(player, player.down_card(int(i)))
+            is_win = play_card(player, player.down_card(int(i) - 1))
             if is_win:
                 break
 

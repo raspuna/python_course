@@ -2,6 +2,7 @@
 class Player:
     player_list = []
     direction = 1
+    current_idx = 0
 
     def __init__(self, name, is_ai = False):
         self.name = name
@@ -9,6 +10,11 @@ class Player:
         self.is_ai = is_ai
         Player.player_list.append(self)
 
+    @classmethod
+    def next_player(cls):
+        current_idx = current_idx + direction
+
+        
     @classmethod
     def players(cls):
         return cls.player_list
@@ -23,10 +29,9 @@ class Player:
         card.show()
         self.hands.append(card)
 
-    def down_card(self, card_pos):
-        card_idx = card_pos -1
+    def down_card(self, card_idx):
         card = self.hands.pop(card_idx)
-        print(f"{self.name} put down [ {card.show()} ]")
+        print(f"{self.name} puts down [ {card.show()} ]")
         return card 
 
     def uno(self):
@@ -63,5 +68,28 @@ class AI(Player):
         for i in range(len(self.hands)):
             h += "[ ]"
         print(h)
+    
+    def choose_card(self, top_card):
+        if self.tactic == 0:
+            for idx, card in enumerate(self.hands):
+                if card.is_same_suit(top_card):
+                    return self.down_card(idx)
+            for idx, card in enumerate(self.hands):
+                if card.is_same_number(top_card):
+                    return self.down_card(idx)
+        elif self.tactic == 1:
+            for idx, card in enumerate(self.hands):
+                if card.is_same_number(top_card):
+                    return self.down_card(idx)
+            for idx, card in enumerate(self.hands):
+                if card.is_same_suit(top_card):
+                    return self.down_card(idx)
+        elif self.tactic == 2:
+            for idx, card in enumerate(self.hands):
+                if card.is_same_number(top_card):
+                    return self.down_card(idx)
+                if card.is_same_suit(top_card):
+                    return self.down_card(idx)
+        return None
 
 
