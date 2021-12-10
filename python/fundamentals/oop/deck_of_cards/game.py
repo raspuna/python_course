@@ -1,5 +1,5 @@
 from random import shuffle
-from classes.deck import Deck
+from classes.deck import Deck, Uno
 from classes.player import *
 import re, random
 
@@ -9,7 +9,7 @@ deck = None
 
 def initialize_game(player_list):
     global deck 
-    deck = Deck()
+    deck = Uno()
     for i in range(7):
         for p in player_list:
             card = deck.cards.pop()
@@ -97,7 +97,7 @@ if __name__ == "__main__":
     # for debugging
 
     top_card = deck.get()
-    dummy = Deck(is_empty = True)
+    dummy = Uno(is_empty = True)
     dummy.add(top_card)
 
     Game = True

@@ -20,3 +20,16 @@ class Card:
     
     def is_playable(self, card):
         return self.is_same_suit(card) or self.is_same_number(card)
+
+class UnoCard(Card):
+    def __init__(self, suit, point_val, string_val):
+        super().__init__(suit, point_val, string_val)
+
+    def is_same_suit(self, card):
+        if self.suit == card.suit:
+            return True
+        elif self.suit == "Wild" or card.suit == "Wild":
+            return True
+        else:
+            return False
+    
