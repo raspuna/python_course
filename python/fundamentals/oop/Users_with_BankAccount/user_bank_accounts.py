@@ -18,8 +18,8 @@ class BankAccount:
             self.balance -= amount
         return self
 
-    def display_account_info(self):
-        print(f"Balance: ${round(float(self.balance), 2)}")
+    def display_account_info(self, account):
+        print(f"{account} Balance: ${round(float(self.balance), 2)}")
     
     def yield_interest(self):
         if self.balance > 0:
@@ -76,8 +76,7 @@ class User:
 
     def display_user_balance(self):
         for account in self.accounts:
-            print(account+":")
-            self.accounts[account].display_account_info()
+            self.accounts[account].display_account_info(account)
     
     def transfer_money(self, user, amount, from_account_name="checking", to_account_name="checking"):
         print(f"{self.username} transfer {amount} to {user.username}")
