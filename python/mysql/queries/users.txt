@@ -1,0 +1,15 @@
+USE users;
+INSERT INTO users (first_name, last_name, email, created_at) VALUES ("Rebecca", "Elliott", "owldiaries@amazon.com", utc_timestamp());
+INSERT INTO users (first_name, last_name, email, created_at) VALUES ("Ben", "Clanton", "narwhalandjelly@amazon.com", utc_timestamp());
+INSERT INTO users (first_name, last_name, email, created_at) VALUES ("Mary Pope", "Osborne", "magictreehouse@amazon.com", utc_timestamp());
+SELECT * FROM users;
+
+SELECT * FROM users WHERE email ="owldiaries@amazon.com";
+SELECT * FROM users WHERE ID = 3;
+
+UPDATE users SET last_name='Pancakes' WHERE ID = 3;
+
+DELETE FROM users WHERE ID = 2;
+
+SELECT * FROM users ORDER BY first_name ASC;
+SELECT * FROM users ORDER by first_name DESC;
