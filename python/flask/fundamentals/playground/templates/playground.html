@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Playground 1</title>
+        <style>
+            td {
+                background-color: {{ color }};
+                margin: 30px;
+                padding: 15px;
+                border: 1px black solid;
+                border-radius: 15%;
+                width: 30px;
+                height: 30px;
+            }
+        </style>
+    </head>
+    <body>
+        <table>
+            <tr>
+                {% for i in range(num): -%}
+                    <td> {{ color }} </td>
+                {% endfor %}
+            </tr>
+        </table>
+    </body>
+</html>
