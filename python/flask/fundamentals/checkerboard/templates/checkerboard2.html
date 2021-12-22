@@ -9,9 +9,9 @@
             <tr>
                 {% for i in range(x): -%}
                     {% if (i+j) % 2 == 0 %}
-                        <td class='box1'></td>
+                        <td style='background-color: {{ color1 }};'></td>
                     {% else %}
-                        <td class='box2'></td>
+                        <td style='background-color: {{ color2 }};'></td>
                     {% endif -%}
                 {% endfor %}
             </tr>

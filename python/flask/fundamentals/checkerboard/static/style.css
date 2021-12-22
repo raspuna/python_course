@@ -13,7 +13,7 @@ td {
     height: 100px;
 }
 .box1 {
-    background-color: var(color1);
+    background-color: black;
 }
 .box2 {
     background-color:red
