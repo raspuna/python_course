@@ -1,0 +1,12 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+th {
+    color: yellow;
+    background-color: black;
+}
+tr {
+    border-bottom: 1px gray solid;
+}
