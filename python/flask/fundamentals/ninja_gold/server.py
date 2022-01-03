@@ -19,20 +19,14 @@ def index():
 
     return render_template("index.html", gold=session['gold'], activities=enumerate(session['msg']), colors=session['color'], move= session['move'])
 
+rand = { "farm": (10, 21), "cave": (5,11), "house":(2,6), "casino":(-50,51)}
 @app.route('/process_money', methods=['POST'])
 def process_money():
     print(request.form)
     print(request.form['building'])
     building = request.form['building']
     money_color= "blue"
-    if building == "farm":
-        money = random.randrange(10,21)
-    elif building == "cave":
-        money = random.randrange(5,11) 
-    elif building == "house":
-        money = random.randrange(2,6)
-    else:
-        money = random.randrange(-50, 51)
+    money = random.randrange(rand[building][0], rand[building][1])
 
     if building == "casino":
         if money < 0:
