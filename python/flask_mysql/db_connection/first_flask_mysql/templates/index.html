@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>My First Flask and Mysql Connection</title>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <th>
+                    first name
+                </th>
+                <th>
+                    last name
+                </th>
+                <th>
+                    occupation
+                </th>
+            </tr>
+        {% for friend in friends %}
+            <tr>
+                <td>
+                    {{ friend.first_name }}
+                </td>
+                <td>
+                    {{ friend.last_name }}
+                </td>
+                <td>
+                    {{ friend.occupation }}
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    </body>
+</html>
