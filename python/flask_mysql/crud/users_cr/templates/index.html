@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title> Read (All) </title>
+    </head>
+    <body>
+        <h1>All Users</h1>
+        <table>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Full Name
+                </th>
+                <th>
+                    email
+                </th>
+                <th>
+                    Created At
+                </th>
+            </tr>
+        {% for user in all_users %}
+            <tr>
+                <td>
+                    {{user.id}}
+                </td>
+                <td>
+                    {{ user.first_name }} {{ user.last_name}}
+                </td>
+                <td>
+                    {{ user.email }}
+                </td>
+                <td>
+                    {{ user.created_at }}
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+        <a href="./users/new">Add a New User</a>
+    </body>
+</html>
