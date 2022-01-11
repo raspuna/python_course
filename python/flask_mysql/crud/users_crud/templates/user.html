@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Read (One)</title>
+    </head>
+    <body>
+        <header>
+            <nav>
+                {% block menu %} {% include 'navbar.html' %} {% endblock menu %}
+            </nav>
+        </header>
+        <h1>User {{ user['id'] }}</h1>
+        <div>
+            <p>Full Name: {{ user['first_name'] }} {{ user['last_name'] }}</p>
+            <p>Email: {{ user['email'] }}</p>
+            <p> Created On: {{ user['created_at'] }} </p>
+            <p> Last Updateed On: {{ user['updated_at'] }}</p>
+        </div>
+        <div> 
+            <a href="/users/{{ user['id'] }}/edit">Edit</a> | 
+            <a href="/users/{{ user['id'] }}/destroy">Delete</a>
+        </div>
+    </body>
+</html>
