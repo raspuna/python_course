@@ -3,7 +3,7 @@ class MySQLConnection:
     def __init__(self, db):
         connection = pymysql.connect(host = '127.0.0.1',
                                     user = 'root',
-                                    password = 'mm!847sql',
+                                    password = 'Fi.bxsk8@.EvKF',
                                     db = db,
                                     charset = 'utf8mb4',
                                     cursorclass = pymysql.cursors.DictCursor,
