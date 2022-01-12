@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <nav>
+            {% block menu %} {% include 'menu.html' %} {% endblock menu %}
+        </nav>
+    </header>
+    <main class="d-flex justify-content-center">
+        <div>
+            <h1> New Author</h1>
+            <form action="authors/new">
+                <label>Name:</label>
+                <input type="submit" value="Create">
+            </form>
+        </div>
+        <div>
+            <h1>All Authors</h1>
+            <div class="border border-secondary">
+                {% for author in authors %}
+                    <a href="{{ author['id'] }}">{{ author['name'] }}</a>
+                {% endfor %}
+            </div>
+            <a href="/books/add">Add Book</a>
+        </div>
+    </main>
+    <footer>
+
+    </footer>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/scripts.js')}}"></script>
+</body>
+</html>

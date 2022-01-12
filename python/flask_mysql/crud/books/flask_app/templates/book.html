@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <nav>
+            {% block menu %} {% include 'menu.html' %} {% endblock menu %}
+        </nav>
+    </header>
+    <main class="d-flex justify-content-center">
+        <div>
+            <h1>Title: {{ book['title'] }}</h1>
+            <p>
+                Favorited by:
+            </p>
+            <p>
+                {% for author in authors %}
+                    {{ author['name'] }}<br>
+                {% endfor %}
+            </p>
+        </div>
+        <div>
+            <h1>Add Author's Favorite</h1>
+            <form action="/favorite">
+                <label>Author:</label>
+                <select name="author">
+                    {% for author in authors  %}
+                        <option value="{{ author['id'] }}">{{ author['title'] }}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Add">
+            </form>
+        </div>
+    </main>
+    <footer>
+
+    </footer>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/scripts.js')}}"></script>
+</body>
+</html>
