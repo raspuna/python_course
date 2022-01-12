@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Dojos</title>
+</head>
+<body>
+    <header>
+        <nav>
+            {% block menu %} {% include 'menu.html' %} {% endblock menu %}
+        </nav>
+    </header>
+    <main class="d-flex justify-content-center">
+        <div class="d-flex width80">
+            <div class="flex1 fullwidth">
+                <h2>New Ninja</h2>
+                <form action="/ninjas/new" method="post">
+                    <table>
+                        <tr>
+                            <td>Dojo:</td>
+                            <td><select name="dojo">
+                                {% for dojo in dojos %}
+                                    <option value="{{ dojo['id'] }}">{{ dojo['name'] }}</option>
+                                {% endfor %}
+                            </select></td>
+                        </tr>
+                        <tr>
+                            <td>First name:</td>
+                            <td><input type="text" name="fname"></td>
+                        </tr>
+                        <tr>
+                            <td>last name:</td>
+                            <td><input type="text" name="lname"></td>
+                        </tr>
+                        <tr>
+                            <td>Age:</td>
+                            <td><input type="number" name="age"></td>
+                        </tr>
+                    </table>
+                    <input type="submit" class="btn btn-dark" value="add">
+                </form>
+            </div>
+        </div>
+
+    </main>
+    <footer>
+
+    </footer>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.bundle.min.js')}}"></script>
+</body>
+</html>

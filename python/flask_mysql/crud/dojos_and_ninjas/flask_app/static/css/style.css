@@ -1,0 +1,12 @@
+.fullwidth {
+    width:100%;
+}
+.width80{
+    width:80%;
+}
+.f1 {
+    flex:1;
+}
+.f2 {
+    flex:2;
+}

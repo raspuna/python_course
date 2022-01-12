@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    {% block menu %}
+    <div class="d-flex justify-content-end m-3">
+        <a href="/dojos">Home</a>
+    </div>
+    {% endblock menu %}
+</body>
+</html>
