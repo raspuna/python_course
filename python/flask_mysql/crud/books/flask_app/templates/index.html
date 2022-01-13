@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     
-    <title>Document</title>
+    <title>Authors</title>
 </head>
 <body>
     <header>
@@ -16,21 +16,24 @@
         </nav>
     </header>
     <main class="d-flex justify-content-center">
-        <div>
-            <h1> New Author</h1>
-            <form action="authors/new">
-                <label>Name:</label>
-                <input type="submit" value="Create">
-            </form>
-        </div>
-        <div>
-            <h1>All Authors</h1>
-            <div class="border border-secondary">
-                {% for author in authors %}
-                    <a href="{{ author['id'] }}">{{ author['name'] }}</a>
-                {% endfor %}
+        <div class="width80 d-flex justify-content-center">
+            <div class="flex2 bg-dark text-light m-2 p-4 rounded">
+                <h1> New Author</h1>
+                <form action="authors/new" method='post'>
+                    <label>Name:</label>
+                    <input type="text" name="name">
+                    <input type="submit" value="Create" class="btn btn-info">
+                </form>
             </div>
-            <a href="/books/add">Add Book</a>
+            <div class="flex2 m-2 p-4">
+                <h1>All Authors</h1>
+                <div class="border border-secondary rounded p-3">
+                    {% for author in authors %}
+                        <a href="/authors/{{ author.id }}">{{ author.name }}</a><br>
+                    {% endfor %}
+                </div>
+                <a href="/books/add">Add Book</a>
+            </div>
         </div>
     </main>
     <footer>

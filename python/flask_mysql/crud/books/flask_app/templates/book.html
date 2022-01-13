@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     
-    <title>Document</title>
+    <title>Book Show</title>
 </head>
 <body>
     <header>
@@ -16,28 +16,32 @@
         </nav>
     </header>
     <main class="d-flex justify-content-center">
-        <div>
-            <h1>Title: {{ book['title'] }}</h1>
-            <p>
-                Favorited by:
-            </p>
-            <p>
-                {% for author in authors %}
-                    {{ author['name'] }}<br>
-                {% endfor %}
-            </p>
-        </div>
-        <div>
-            <h1>Add Author's Favorite</h1>
-            <form action="/favorite">
-                <label>Author:</label>
-                <select name="author">
-                    {% for author in authors  %}
-                        <option value="{{ author['id'] }}">{{ author['title'] }}</option>
+        <div class="width80 d-flex justify-content-center">
+            <div class="flex2 border border-dark m-2 p-4 rounded">
+                <h1>Title: {{ book.title }}</h1>
+                <p>
+                    Favorited by:
+                </p>
+                <p>
+                    {% for author in fav_authors %}
+                        <a href="/authors/{{ author.id }}">{{ author.name }}</a><br>
                     {% endfor %}
-                </select>
-                <input type="submit" value="Add">
-            </form>
+                </p>
+            </div>
+            <div class="flex2 m-2 p-4">
+                <h1>Add Author's Favorite</h1>
+                <form action="/favorite" method='post'>
+                    <label>Author:</label>
+                    <select name="author_id">
+                        {% for author in authors %}
+                            <option value="{{ author.id }}">{{ author.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="hidden" name="book_id" value="{{ book.id }}">
+                    <input type="hidden" name="redirect_to" value="books/{{ book.id }}">
+                    <input type="submit" value="Add">
+                </form>
+            </div>
         </div>
     </main>
     <footer>

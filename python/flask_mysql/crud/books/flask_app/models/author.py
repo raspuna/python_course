@@ -4,6 +4,7 @@ class Author:
     db = 'books'
     def __init__(self, data):
         self.id = data['id']
+        self.name = data['name']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
     
@@ -40,3 +41,31 @@ class Author:
         query = "DELETE FROM authors WHERE id = %(id)s;"
         connectToMySQL(cls.db).query_db(query, data)
         return None
+    
+    @classmethod
+    def select_with_book(cls, data):
+        query = """
+            SELECT * FROM authors 
+            LEFT JOIN favorites ON authors.id = favorites.author_id
+            WHERE favorites.book_id = %(book_id)s
+        ;"""
+        results = connectToMySQL(cls.db).query_db(query, data)
+        all_objs = []
+        for obj in results:
+            all_objs.append(cls(obj))
+        return all_objs
+    
+    @classmethod
+    def select_without_book(cls, data):
+        query = """
+            SELECT * FROM authors
+            WHERE id NOT IN
+			(SELECT A.id FROM authors A
+            JOIN favorites ON A.id = favorites.author_id
+            WHERE favorites.book_id = %(book_id)s )
+        ;"""
+        results = connectToMySQL(cls.db).query_db(query, data)
+        all_objs = []
+        for obj in results:
+            all_objs.append(cls(obj))
+        return all_objs

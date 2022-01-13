@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    
+    <title>Books</title>
+</head>
+<body>
+    <header>
+        <nav>
+            {% block menu %} {% include 'menu.html' %} {% endblock menu %}
+        </nav>
+    </header>
+    <main class="d-flex justify-content-center">
+        <div class="width80 d-flex justify-content-center">
+            <div class="flex2 bg-dark text-light m-2 p-4 rounded">
+                <h1>New Books</h1>
+                <form action="/books/new" method='post'>
+                    <div class="d-flex justify-content-between fullwidth">
+                        <label>Title:</label>
+                        <input type="text" name="title">
+                    </div>
+                    <div class="d-flex justify-content-between fullwidth">
+                        <label>Number of pages:</label>
+                        <input type="text" name="num_of_pages">
+                    </div>
+                    <input type="submit" value="Create" class="btn btn-warning">
+                </form>
+            </div>
+            <div class="flex2 m-2 p-4">
+                <h1>All Books</h1>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th># of pages</th>
+                            <th>action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for book in books  %}
+                            <tr>
+                                <td scope="row"><a href="/books/{{ book.id }}">{{ book.title }}</a></td>
+                                <td>{{ book.num_of_pages }}</td>
+                                <td><a href="/books/{{ book.id}}/remove">DELETE</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    <footer>
+
+    </footer>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/scripts.js')}}"></script>
+</body>
+</html>

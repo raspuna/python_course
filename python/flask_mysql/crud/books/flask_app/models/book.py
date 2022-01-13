@@ -42,3 +42,32 @@ class Book:
         query = "DELETE FROM books WHERE id = %(id)s;"
         connectToMySQL(cls.db).query_db(query, data)
         return None
+
+    @classmethod
+    def select_with_author(cls, data):
+        query = """
+            SELECT * FROM books 
+            LEFT JOIN favorites ON books.id = favorites.book_id
+            WHERE favorites.author_id = %(author_id)s
+        ;"""
+        results = connectToMySQL(cls.db).query_db(query, data)
+        all_objs = []
+        for obj in results:
+            all_objs.append(cls(obj))
+        return all_objs
+
+    @classmethod
+    def select_without_author(cls, data):
+        query = """
+            SELECT id, title, num_of_pages, created_at, updated_at FROM books 
+            WHERE id NOT IN
+			(SELECT a.id FROM books A
+            JOIN favorites ON a.id = favorites.book_id
+            WHERE favorites.author_id = %(author_id)s )
+        ;
+        ;"""
+        results = connectToMySQL(cls.db).query_db(query, data)
+        all_objs = []
+        for obj in results:
+            all_objs.append(cls(obj))
+        return all_objs
