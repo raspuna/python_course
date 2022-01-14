@@ -15,7 +15,69 @@
             {% block menu %} {% include 'menu.html' %} {% endblock menu %}
         </nav>
     </header>
-    <main>
+    <main class="d-flex justify-content-center">
+        <div class="width80 d-flex justify-content-between">
+            <div class="flex2 p-4 m-2">
+                <h2> Friendships</h2>
+                <table class="table striped">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Friend</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for a_hash in friendships %}
+                        <tr>
+                            <td>{{ a_hash.user_fname }} {{ a_hash.user_lname }}</td>
+                            <td>{{ a_hash.friend_fname }} {{ a_hash.friend_lname }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="flex2 p-4 m-2 d-flex flex-column">
+                <div>
+                    <h2> Add User</h2>
+                    <form action="/users/new" method='post'>
+                        <div>
+                            <label>First Name:</label>
+                            <input type="text" name="fname">
+                        </div>
+                        <div>
+                            <label>Last Name:</label>
+                            <input type="text" name="lname">
+                        </div>
+                        <div>
+                            <input type="submit" value="Add User" class="btn btn-warning">
+                        </div>
+                    </form>
+                </div>
+                <div>
+                    <h2>Create Friendship</h2>
+                    <form action="/friendships/new" method='post'>
+                        <div>
+                            <label>User:</label>
+                            <select name="user_id">
+                                {% for user in users  %}
+                                    <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div>
+                            <label>Friend:</label>
+                            <select name="friend_id">
+                                {% for user in users %}
+                                    <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <input type="submit" value="Create" class="btn btn-info">
+                    </form>
+                </div>
+            </div>
+        </div>
+
 
     </main>
     <footer>
