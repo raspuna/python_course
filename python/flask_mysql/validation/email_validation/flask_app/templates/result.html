@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <nav>
+            {% block menu %} {% include 'menu.html' %} {% endblock menu %}
+        </nav>
+    </header>
+    <main>
+        <div class="m-2 p-2 border border-dark bg-success text-white">
+            {% if is_delete %}
+                The email address ( {{input_email['email']}} ) is deleted!
+            {% else %}
+                The email adress you entered ( {{ input_email }} ) is a VALID email address! Thank you!
+            {% endif %}
+        </div>
+        <div>
+            <h3>Email Address Entered</h3>
+                {% for el in emails %}
+                    {{ el.email }} {{ el.created_at }}  | <a href="/destroy/{{el.id}}">DELETE</a> <br>
+                {% endfor %}    
+        </div>
+    </main>
+    <footer>
+
+    </footer>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/scripts.js')}}"></script>
+</body>
+</html>
