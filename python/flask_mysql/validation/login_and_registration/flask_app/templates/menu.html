@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    </head>
+    <body>
+        {% block menu %}
+        <main class="d-flex justify-content-center">
+            <nav class="d-flex justify-content-between width80 bg-dark p-3 ms-5 me-5">
+                <a href="/" class="text-info">Home</a>
+                <a href="/logout" class="text-danger">Logout</a>
+            </nav>
+        </main>
+        {% endblock menu %}
+    </body>
+</html>
