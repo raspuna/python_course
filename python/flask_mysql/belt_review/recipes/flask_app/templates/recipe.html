@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <nav>
+            {% block menu %} {% include 'menu.html' %} {% endblock menu %}
+        </nav>
+    </header>
+    <main class="d-flex justify-content-center fullsize">
+        <div class="d-flex flex-column width80 p-3 ms-5 me-5">
+            <h2>{{recipe.name}}</h2>
+            <div class="border">
+                <p>Description:<br>
+                    {% for line in description %}
+                        {{line}}<br>
+                    {% endfor %}
+                </p>
+                <p>Under 30 minutes: {{recipe.cook_time}}</p>
+                <p>Instructions:<br>
+                    {% for line in instructions %}
+                        {{ line }}<br>
+                    {% endfor %}
+                </p>
+                <p>Date Made: {{recipe.date_made}}</p>
+            </div>
+            <div class="d-flex justify-content-center">
+                {% if is_author %}
+                <a href="/recipes/edit/{{recipe.id}}" class="btn btn-primary m-2">Edit</a>
+                <a href="/recipes/delete/{{recipe.id}}" class="btn btn-danger m-2">Delete</a>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+    <footer>
+
+    </footer>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/scripts.js')}}"></script>
+</body>
+</html>

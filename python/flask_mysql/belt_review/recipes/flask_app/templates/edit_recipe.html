@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <nav>
+            {% block menu %} {% include 'menu.html' %} {% endblock menu %}
+        </nav>
+    </header>
+    <main class="d-flex justify-content-center fullsize">
+        <div class="d-flex flex-column width80 p-3 ms-5 me-5">
+            <h2>Edit Recipe</h2>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="p-2 bg-danger text-white">
+                        {% for message in messages %}
+                            <p>{{message}}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            <form action="/recipes/update" method="post" class="d-flex justify-content-between">
+                <div class="d-flex flex-column flex2 m-2 p-2">
+                    <input type="hidden" name='id' value='{{recipe.id}}'>
+                    <label>Name:</label>
+                    <input type='text' name='name' value="{{recipe.name}}">
+                    <label>Description:</label>
+                    <textarea name="description">{{recipe.description}}</textarea>
+                    <label>Instruction:</label>
+                    <textarea name="instructions">{{recipe.instructions}}</textarea>
+                </div>
+                <div class="d-flex flex-column flex2 m-2 p-2">
+                    <label>Date Made On:</label>
+                    <input type="date" name="date_made" value="{{recipe.date_made}}">
+                    <label>Under 30 Minutes?:</label>
+                    <div>
+                        {% if recipe.cook_time == 'Yes' %}
+                            <input type="radio" name="cook_time" value="Yes" checked>
+                        {% else %}
+                            <input type="radio" name="cook_time" value="Yes">
+                        {% endif %}
+                        <label>Yes</label>
+                        {% if recipe.cook_time == 'No' %}
+                            <input type="radio" name="cook_time" value="No" checked>
+                        {% else %}
+                            <input type="radio" name="cook_time" value="No">
+                        {% endif %}
+                        <label>No</label>
+                    </div>
+                    <input type="submit" value="Edit recipe" class="btn btn-info">
+                </div>
+            </form>
+        </div>
+    </main>
+    <footer>
+
+    </footer>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/scripts.js')}}"></script>
+</body>
+</html>

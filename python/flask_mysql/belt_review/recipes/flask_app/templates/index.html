@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <nav>
+        <!--    {% block menu %} {% include 'menu.html' %} {% endblock menu %} -->
+        </nav>
+    </header>
+    <main class='d-flex justify-content-center fullwidth'> 
+        <div class='d-flex justify-content-between width80'>
+            <div id = 'registration' class='flex2 bg-dark text-white m-3 p-4 flex-column'>
+                {% with messages = get_flashed_messages(category_filter=['register']) %}
+                    {% if messages %}
+                        <div class="p-2 bg-danger text-white">
+                            {% for message in messages %}
+                                <p>{{message}}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                <h2 class='text-primary'>Register</h2>
+                <form action='/register' method='post' class='d-flex flex-column'>
+                    <label>First Name:</label>
+                    <input type='text' name='first_name'>
+                    <label>Last Name:</label>
+                    <input type='text' name='last_name'>
+                    <label>Email:</label>
+                    <input type='text' name='email'>
+                    <label>Password:</label>
+                    <input type='password' name='password'>
+                    <label>Confirm Password:</label>
+                    <input type='password' name='confirm_password'>
+                    <input type='submit' value='Register' class='btn btn-primary m-3 p-3'>
+                </form>
+            </div>
+            <div id='login' class='flex2 bg-dark text-white flex-column m-3 p-4'>
+                {% with messages = get_flashed_messages(category_filter=['login']) %}
+                {% if messages %}
+                    <div class="p-2 bg-danger text-white">
+                        {% for message in messages %}
+                            <p>{{message}}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+                <h2 class='text-success'>Login</h2>
+                <form action = '/login' method='post' class='d-flex flex-column'>
+                    <label>Email:</label>
+                    <input type='text' name='email'>
+                    <label>Password:</label>
+                    <input type='password' name='password'>
+                    <input type='submit' value='Login' class='btn btn-success m-3 p-3'>
+                </form>
+            </div>
+        </div>
+    </main>
+    <footer>
+
+    </footer>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/scripts.js')}}"></script>
+</body>
+</html>
