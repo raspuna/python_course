@@ -8,14 +8,15 @@
         {% block menu %}
         <main class="d-flex justify-content-center fullsize">
             <nav class="d-flex justify-content-between align-items-baseline width80 bg-dark p-3 ms-5 me-5">
-                {% if username %}
-                    <h2 class="text-white">Welcome, {{ username}}!</h2>
+                {% if user %}
+                    <h2 class="text-white">Welcome, {{ user.first_name}} {{user.last_name}}!</h2>
                     <div> 
                         {% if is_dashboard %}
                             <a href="/recipes/new_recipe">Create</a>
                         {% else %}
                             <a href="/dashboard" class="text-info">Dashboard</a>
                         {% endif %}
+                        <a href="/myaccount" class="text-white">MyAccount</a>
                         <a href="/logout" class="text-danger">Logout</a>
                     </div>
                 {% endif %}

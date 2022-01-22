@@ -32,7 +32,7 @@
                         <td>{{recipe.name}}</td>
                         <td>{{recipe.cook_time}}</td>
                         <td><a href="/recipes/{{recipe.id}}">view instruction </a>
-                            {% if user_id == recipe.user_id %}
+                            {% if user.id == recipe.user_id %}
                                 | <a href="/recipes/edit/{{recipe.id}}">edit</a>
                                 | <a href="/recipes/delete/{{recipe.id}}">delete</a>
                             {% endif %}

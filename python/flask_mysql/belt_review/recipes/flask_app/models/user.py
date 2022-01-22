@@ -26,8 +26,10 @@ class User:
     def select_one(cls, data):
         query = "SELECT * FROM users WHERE id = %(id)s;"
         result = connectToMySQL(cls.db).query_db(query, data)
-        user = result[0]
-        return user
+        if result:
+            return cls(result[0])
+        else:
+            return None
 
     @classmethod
     def select_count_by_email(cls, data):
@@ -60,7 +62,19 @@ class User:
 
     @classmethod
     def update(cls, data):
-        query = "UPDATE users SET updated_at = NOW() WHERE id = %(id)s;"
+        query = """
+            UPDATE users SET 
+            first_name=%(first_name)s, last_name=%(last_name)s, email=%(email)s,
+            updated_at = NOW() WHERE id = %(id)s;"""
+        connectToMySQL(cls.db).query_db(query, data)
+        return None
+
+    @classmethod
+    def update_password(cls, data):
+        query = """
+            UPDATE users SET 
+            password=%(password)s,
+            updated_at = NOW() WHERE id = %(id)s;"""
         connectToMySQL(cls.db).query_db(query, data)
         return None
 
@@ -71,37 +85,48 @@ class User:
         return None
     
     @staticmethod
-    def validate(user):
-        print(user)
-        if len(user['first_name']) < 2:
-            flash("First name is too short", category='register')
-            return False
-        if not USERNAME_REGEX.match(user['first_name']):
-            flash("First name is Invalid", category='register')
-            return False
-        if len(user['last_name']) < 2:
-            flash("Last name is too short", category='register')
-            return False    
-        if not USERNAME_REGEX.match(user['last_name']):
-            flash("Last name is Invalid", category='register')
-            return False
-        if not EMAIL_REGEX.match(user['email']):
-            flash("Invalid email address", category='register')
-            return False
-        cnt = User.select_count_by_email(user)
-        if cnt > 0:
-            flash("Not unique email address", category='register')
-            return False
+    def validate_password(user, category='register'):
         if len(user['password']) < 8:
-            flash("password is too short", category='register')
+            flash("password is too short", category=category)
             return False
         if not PASSWD_REGEX1.match(user['password']) or not PASSWD_REGEX2.match(user['password']):
-            flash("Password must have least 1 Upper case letter and 1 number", category='register')
+            flash("Password must have least 1 Upper case letter and 1 number", category=category)
             return False
         if user['password'] != user['confirm_password']:
-            flash("password does not match", category='register')
+            flash("password does not match", category=category)
             return False
+        return True
 
+    @staticmethod
+    def validate_userinfo(user, category='register'):
+        if len(user['first_name']) < 2:
+            flash("First name is too short", category=category)
+            return False
+        if not USERNAME_REGEX.match(user['first_name']):
+            flash("First name is Invalid", category=category)
+            return False
+        if len(user['last_name']) < 2:
+            flash("Last name is too short", category=category)
+            return False    
+        if not USERNAME_REGEX.match(user['last_name']):
+            flash("Last name is Invalid", category=category)
+            return False
+        if not EMAIL_REGEX.match(user['email']):
+            flash("Invalid email address", category=category)
+            return False
+        if category == 'register':
+            cnt = User.select_count_by_email(user)
+            if cnt > 0:
+                flash("Not unique email address", category=category)
+                return False
+        return True
+
+    @staticmethod
+    def validate_register(user):
+        if not User.validate_userinfo(user):
+            return False
+        if not User.validate_password(user):
+            return False
         return True
 
 USERNAME_REGEX = re.compile(r'^[a-zA-Z]{2,}$')

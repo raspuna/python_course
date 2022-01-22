@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    
+    <title>Recipes</title>
+</head>
+<body>
+    <header>
+        <nav>
+            {% block menu %} {% include 'menu.html' %} {% endblock menu %}
+        </nav>
+    </header>
+    <main class='d-flex justify-content-center fullwidth'> 
+        <div class='d-flex justify-content-between width80'>
+            <div class='flex2 bg-dark text-white m-3 p-4 flex-column'>
+                {% with messages = get_flashed_messages(category_filter=['edituser']) %}
+                    {% if messages %}
+                        <div class="p-2 bg-danger text-white">
+                            {% for message in messages %}
+                                <p>{{message}}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                <h2 class='text-primary'>Edit User Information</h2>
+                <form action='/users/update' method='post' class='d-flex flex-column'>
+                    <label>First Name:</label>
+                    <input type='text' name='first_name' value='{{user.first_name}}'>
+                    <label>Last Name:</label>
+                    <input type='text' name='last_name' value='{{user.last_name}}'>
+                    <label>Email:</label>
+                    <input type='text' name='email' value='{{user.email}}'>
+                    <label>Password:</label>
+                    <input type='password' name='password'>
+                    <input type='submit' value='Edit' class='btn btn-primary m-3 p-3'>
+                </form>
+            </div>
+            <div id='password' class='flex2 bg-dark text-white flex-column m-3 p-4'>
+                {% with messages = get_flashed_messages(category_filter=['password']) %}
+                    {% if messages %}
+                        <div class="p-2 bg-danger text-white">
+                            {% for message in messages %}
+                                <p>{{message}}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                <h2 class='text-warning'>Change Password</h2>
+                <form action = '/users/change_password' method='post' class='d-flex flex-column'>
+                    <label>Old Password:</label>
+                    <input type='password' name='old_password'>
+                    <label>New Password:</label>
+                    <input type='password' name='new_password'>
+                    <label>Confirm New Password:</label>
+                    <input type='password' name='confirm_password'>
+
+                    <input type='submit' value='Change' class='btn btn-warning m-3 p-3'>
+                </form>
+            </div>
+        </div>
+    </main>
+    <footer>
+
+    </footer>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/scripts.js')}}"></script>
+</body>
+</html>

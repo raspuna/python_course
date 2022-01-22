@@ -1,6 +1,6 @@
 from flask_app import app
 from flask import render_template, redirect, request, session, flash
-from flask_app.models import recipe
+from flask_app.models import recipe,user
 
 @app.route('/recipes/<int:recipe_id>')
 def view_recipe(recipe_id):
@@ -18,9 +18,9 @@ def view_recipe(recipe_id):
     else:
         is_author = False
     description = the_recipe.description.split("\r\n")
-    print("hey", description)
     instructions = the_recipe.instructions.split("\r\n")
-    return render_template("recipe.html", recipe = the_recipe, username=session['username'], \
+    the_user = user.User.select_one({'id':session['user_id']})
+    return render_template("recipe.html", recipe = the_recipe, user=the_user,\
             is_author = is_author,\
             description=description, instructions = instructions)
 
@@ -38,7 +38,8 @@ def edit_recipe(recipe_id):
     if session['user_id'] != the_recipe.user_id:
         return redirect('/dashboard')
     else:
-        return render_template("edit_recipe.html", recipe = the_recipe, username=session['username'])
+        the_user = user.User.select_one({'id':session['user_id']})
+        return render_template("edit_recipe.html", recipe = the_recipe, user=the_user)
 
 @app.route('/recipes/update', methods=['POST'])
 def update_recipe():
@@ -60,7 +61,8 @@ def new_recipe():
     if 'user_id' not in session:
         print('wrong access', session)
         return redirect('/')
-    return render_template("new_recipe.html",username=session['username'])
+    the_user = user.User.select_one({'id':session['user_id']})
+    return render_template("new_recipe.html",user=the_user)
 
 
 @app.route('/recipes/add', methods=['POST'])
