@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Dojo Weather</title>
+        <link rel="stylesheet" href="./style.css">
+    </head>
+    <body>
+        <!-- header -->
+        <header>
+            <!-- header-background-->
+            <div class="header-background container">
+                <!-- header container flex space-between -->
+                <div class="head-bar flex space-between">
+                    <!-- title -->
+                    <h1>DojoWeather</h1>
+                    <!-- cities -->
+                    <div class="flex space-between">
+                        <span class="city-name" onclick="changeCity('Burbank')">Burbank</span>
+                        <span class="city-name" onclick="changeCity('Chicago')">Chicago</span>
+                        <span class="city-name" onclick="changeCity('Dallas')">Dallas</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <!-- main container flex column-->
+            <div class="main flex-column">
+                <!-- main title bar flex space-between -->
+                <div class="title-bar flex space-between">
+                    <!-- city -->
+                    <h2 id="chosen-city">San Jose</h2>
+                    <!-- temperature option -->
+                    <div class="flex space-between">
+                        <!-- text -->
+                        <p>
+                            show temperature in
+                        </p>
+                        <!-- select temp -->
+                        <select onchange="transform(this)">
+                            <option value='C'>°C</option>
+                            <option value='F'>°F</option>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <!-- daily weather container flex -->
+                <div class="flex space-between">
+                    <!-- today box flex column -->
+                    <div class="weather-box flex-column" id="today">
+                        <!-- day -->
+                        <h3>Today</h3>
+                        <!-- weather img -->
+                        <img src="./assets/some_rain.png" alt="some rain">
+                        <!-- text -->
+                        <p>some rain</p>
+                        <!-- temperature flex space-between -->
+                        <div class="temperature flex space-between">
+                            <!-- highest -->
+                            <span class="highest">
+                                24° 
+                            </span>
+                            <!-- lowest -->
+                            <span class="lowest">
+                                18°
+                            </span>
+                        </div>
+                    </div>
+                    <!-- tommorow box flex column -->
+                    <div class="weather-box flex-column" id="tomorrow">
+                        <!-- day -->
+                        <h3>Tomorrow</h3>
+                        <!-- weather img -->
+                        <img src="./assets/some_sun.png" alt="some sun">
+                        <!-- text -->
+                        <p>some sun</p>
+                        <!-- temperature flex space-between -->
+                        <div class="temperature flex space-between">
+                            <!-- highest -->
+                            <span class="highest">
+                                27° 
+                            </span>
+                            <!-- lowest -->
+                            <span class="lowest">
+                                19°
+                            </span>
+                        </div>
+                    </div>
+                    <!-- Friday box flex column -->
+                    <div class="weather-box flex-column" id="Fri">
+                        <!-- day -->
+                        <h3>Friday</h3>
+                        <!-- weather img -->
+                        <img src="./assets/some_clouds.png" alt="some clouds">
+                        <!-- text -->
+                        <p>some clouds</p>
+                        <!-- temperature flex space-between -->
+                        <div class="temperature flex space-between">
+                            <!-- highest -->
+                            <span class="highest">
+                                21° 
+                            </span>
+                            <!-- lowest -->
+                            <span class="lowest">
+                                16°
+                            </span>
+                        </div>
+                    </div>
+                    <!-- Saturday box flex column -->
+                    <div class="weather-box flex-column" id="Sat">
+                        <!-- day -->
+                        <h3>Saturday</h3>
+                        <!-- weather img -->
+                        <img src="./assets/some_sun.png" alt="some sun">
+                        <!-- text -->
+                        <p>some sun</p>
+                        <!-- temperature flex space-between -->
+                        <div class="temperature flex space-between">
+                            <!-- highest -->
+                            <span class="highest">
+                                26° 
+                            </span>
+                            <!-- lowest -->
+                            <span class="lowest">
+                                21°
+                            </span>
+                        </div>
+                </div>
+                <!-- cookie box position:absolute-->
+                <div class="cookie-box">
+                <!-- cookie container flex -->
+                    <div class="container">
+                        <!-- img -->
+                        <img src="assets/cookie.png" alt="this is cookie">
+                        <!-- text box -->
+                        <div>
+                            <!-- h3 -->
+                            <h3>Stop! cookie time</h3>
+                            <!-- p -->
+                            <p>
+                                We use cookies (sadly not the edible ones) to personalize
+                                content and ads, to provide social media features and to 
+                                analyse our traffic. <a href="#">Read more...</a>
+                            </p>
+                        </div>
+                        <!-- accept button -->
+                        <button id="btn" onclick="acceptCookie(this)"> I Accept</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <script src="./script.js"></script>
+    </body>
+</html>
